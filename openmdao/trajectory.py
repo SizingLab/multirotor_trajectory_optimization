@@ -46,6 +46,8 @@ class Trajectory(om.ExplicitComponent):
 
         shape = self.options["num_points"]
 
+        self.add_input("final_time", val=self.options["final_time"])
+
         if self.options["use_torque"]:
             self.add_input("torque", val=np.nan, shape=shape)
             self.add_output("speed", shape=shape)
@@ -69,7 +71,8 @@ class Trajectory(om.ExplicitComponent):
     def compute(self, inputs, outputs):
         # Resetting the model is required to re-run from scratch the FMU
         self.model.reset()
-        final_time = self.options["final_time"]
+        # final_time = self.options["final_time"]
+        final_time = float(inputs["final_time"])
         self.model.set("Time", final_time)
         time = np.linspace(0.0, final_time, num=self.options["num_points"])
         time_simu = np.linspace(0.0, final_time, num=self.options["num_simu_points"])
