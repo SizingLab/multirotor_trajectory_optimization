@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 import openmdao.api as om
 
 
@@ -39,6 +40,7 @@ class Trajectory(om.ExplicitComponent):
         self.options.declare("model", types=object)
 
     def setup(self):
+        self.res = None
         # Loading locally the FMU
         self.model = self.options["model"]
 
@@ -58,6 +60,9 @@ class Trajectory(om.ExplicitComponent):
         self.add_output("power", shape=shape)
         self.add_output("energy", shape=shape)
         self.add_output("total_energy")
+        self.add_output("final_position")
+        self.add_output("final_speed")
+        self.add_output("acc_capacity")
 
         self.declare_partials("*", "*", method="fd")
 
@@ -72,8 +77,8 @@ class Trajectory(om.ExplicitComponent):
             torque = inputs["torque"]
             torque_simu = np.interp(time_simu, time, torque)
             data = np.transpose(np.vstack((time_simu, torque_simu)))
-            input_object = ("droneMassPropeller.T", data)
-            self.model.set("droneMassPropeller.T", torque_simu[0])
+            input_object = ("T", data)
+            self.model.set("T", torque_simu[0])
         else:
             self.model.set("droneMassPropeller.xp", inputs["speed"])
 
@@ -83,6 +88,10 @@ class Trajectory(om.ExplicitComponent):
             input=input_object,
             options={"ncp": self.options["num_simu_points"]-1},
         )
+
+        self.res = res
+        max_torque = np.max(res["droneMassPropeller.T"])
+        hover_torque = res["droneMassPropeller.T"][0]
 
         if self.options["use_torque"]:
             outputs["speed"] = np.interp(time, time_simu, res["droneMassPropeller.xp"])
@@ -97,6 +106,54 @@ class Trajectory(om.ExplicitComponent):
         outputs["acceleration"] = np.interp(
             time, time_simu, res["droneMassPropeller.der(xp)"]
         )
+
         outputs["power"] = np.interp(time, time_simu, res["droneMassPropeller.Power"])
         outputs["energy"] = np.interp(time, time_simu, res["NRJ.y"])
         outputs["total_energy"] = res["NRJ.y"][-1]
+        outputs["final_position"] = res["droneMassPropeller.x"][-1]
+        outputs["final_speed"] = res["droneMassPropeller.xp"][-1]
+        outputs["acc_capacity"] = 2 - max_torque/hover_torque
+
+
+def plot_trajectory(res):
+
+    t = res["time"]
+    xpp = res["droneMassPropeller.der(xp)"]
+    xp = res["droneMassPropeller.xp"]
+    x = res["droneMassPropeller.x"]
+    n = res["droneMassPropeller.n"]
+    T = res["droneMassPropeller.T"]
+    power = res["droneMassPropeller.Power"]
+
+    plt.grid()
+    plt.plot(t, xpp, 'k')
+    plt.ylabel('Acceleration (m/s²)')
+    plt.xlabel('Time (s)')
+    plt.show()
+    plt.grid()
+    plt.plot(t, xp, 'k')
+    plt.ylabel('Speed (m/s)')
+    plt.xlabel('Time (s)')
+    plt.show()
+    plt.grid()
+    plt.plot(t, x, 'r')
+    plt.ylabel('Position (m)')
+    plt.xlabel('Time (s)')
+    plt.show()
+    plt.grid()
+    plt.plot(t, n, 'b')
+    plt.ylabel('Rotational speed (Hz)')
+    plt.xlabel('Time (s)')
+    plt.show()
+    plt.grid()
+    plt.plot(t, T, 'b')
+    plt.ylabel('Torque')
+    plt.xlabel('Time (s)')
+    plt.show()
+    plt.grid()
+    plt.plot(t, power, 'b')
+    plt.ylabel('Total power [W]')
+    plt.ylim(bottom=0)
+    plt.xlabel('Time (s)')
+    plt.legend()
+    plt.show()
