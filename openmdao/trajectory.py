@@ -153,7 +153,6 @@ def plot_trajectory(res):
     plt.grid()
     plt.plot(t, power, 'b')
     plt.ylabel('Total power [W]')
-    plt.ylim(bottom=0)
     plt.xlabel('Time (s)')
     plt.legend()
     plt.show()
