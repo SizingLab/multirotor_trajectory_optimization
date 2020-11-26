@@ -43,7 +43,7 @@ class TorqueConstant(om.ExplicitComponent):
         omega_pro = inputs["data:propeller:speed:takeoff"]
         U_bat = inputs["data:battery:voltage:guess"]
 
-        K_mot = U_bat / (k_os*omega_pro)
+        K_mot = U_bat / (k_os * omega_pro)
 
         outputs["data:motor:Kt"] = K_mot
 
@@ -80,9 +80,9 @@ class ScalingLaws(om.ExplicitComponent):
         R_ref = inputs["data:motor:resistance:ref"]
         T_fr_ref = inputs["data:motor:friction:ref"]
 
-        M_mot = M_ref * (T_nom / T_nom_ref) ** (3. / 3.5)
-        R_mot = R_ref * (T_nom / T_nom_ref) ** (-5. / 3.5) * (Kt / Kt_ref) ** 2.
-        T_mot_fr = T_fr_ref * (T_nom / T_nom_ref) ** (3. / 3.5)
+        M_mot = M_ref * (T_nom / T_nom_ref) ** (3.0 / 3.5)
+        R_mot = R_ref * (T_nom / T_nom_ref) ** (-5.0 / 3.5) * (Kt / Kt_ref) ** 2.0
+        T_mot_fr = T_fr_ref * (T_nom / T_nom_ref) ** (3.0 / 3.5)
         T_max_mot = T_max_ref * (T_nom / T_nom_ref)
 
         outputs["data:motor:mass"] = M_mot
@@ -141,10 +141,36 @@ class CurrentAndVoltage(om.ExplicitComponent):
         outputs["data:motor:power:takeoff"] = P_el_mot_to
 
 
-class Motor(om.Group):
+class ConstraintMotorTorque(om.ExplicitComponent):
+    """
+    Computes the constraint for the motor torque
+    """
 
+    def setup(self):
+        self.add_input("data:propeller:torque:takeoff", val=np.nan, units="N*m")
+        self.add_input("data:motor:torque:max", val=np.nan, units="N*m")
+
+        self.add_output("data:motor:torque:max:constraint", units="N*m")
+
+        self.declare_partials("*", "*", method="fd")
+
+    def compute(self, inputs, outputs, discrete_inputs=None, discrete_outputs=None):
+        T_pro = inputs["data:propeller:torque:takeoff"]
+        T_mot = inputs["data:motor:torque:max"]
+
+        T_mot_constr = T_pro - T_mot
+
+        outputs["data:motor:torque:max:constraint"] = T_mot_constr
+
+    def compute_partials(self, inputs, partials, discrete_inputs=None):
+        partials["data:motor:torque:max:constraint", "data:motor:torque:max"] = -1.
+        partials["data:motor:torque:max:constraint", "data:propeller:torque:takeoff"] = 1.
+
+
+class Motor(om.Group):
     def setup(self):
         self.add_subsystem("nominal_torque", NominalTorque(), promotes=["*"])
         self.add_subsystem("torque_constant", TorqueConstant(), promotes=["*"])
         self.add_subsystem("scaling_laws", ScalingLaws(), promotes=["*"])
         self.add_subsystem("current_and_voltage", CurrentAndVoltage(), promotes=["*"])
+        self.add_subsystem("torque_constraint", ConstraintMotorTorque(), promotes=["*"])

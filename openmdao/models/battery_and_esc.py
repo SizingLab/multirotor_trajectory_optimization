@@ -135,7 +135,6 @@ class ESCMassAndVoltage(om.ExplicitComponent):
 
 
 class BatteryAndESC(om.Group):
-
     def setup(self):
         self.add_subsystem("battery_voltage", BatteryVoltage(), promotes=["*"])
         self.add_subsystem("battery_mass", BatteryMass(), promotes=["*"])

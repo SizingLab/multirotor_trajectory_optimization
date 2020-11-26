@@ -54,8 +54,8 @@ class Diameter(om.ExplicitComponent):
         atm = AtmosphereSI(altitude)
         rho = atm.density
 
-        ND = (ND_max / k_ND)
-        D_pro = (F_pro / (Ct * rho * ND**2.)) ** 0.5
+        ND = ND_max / k_ND
+        D_pro = (F_pro / (Ct * rho * ND ** 2.0)) ** 0.5
 
         outputs["data:propeller:ND"] = ND
         outputs["data:propeller:diameter"] = D_pro
@@ -85,6 +85,7 @@ class RotationalSpeedTakeoff(om.ExplicitComponent):
         outputs["data:propeller:frequency:takeoff"] = n
         outputs["data:propeller:speed:takeoff"] = omega
 
+
 class MassAndInertia(om.ExplicitComponent):
     """
     Computes mass and inertia based on takeoff scenario
@@ -105,7 +106,7 @@ class MassAndInertia(om.ExplicitComponent):
         D_ref = inputs["data:propeller:diameter:ref"]
         D = inputs["data:propeller:diameter"]
 
-        M = M_ref * (D / D_ref) ** 2.
+        M = M_ref * (D / D_ref) ** 2.0
         J = M * (D / 2) ** 2 / 3
 
         outputs["data:propeller:mass"] = M
@@ -139,7 +140,7 @@ class PowerAndTorqueTakeoff(om.ExplicitComponent):
         atm = AtmosphereSI(altitude)
         rho = atm.density
 
-        P = Cp * rho * n ** 3. * D ** 5.
+        P = Cp * rho * n ** 3.0 * D ** 5.0
         T = P / omega
 
         outputs["data:propeller:power:takeoff"] = P
@@ -171,8 +172,8 @@ class RotationalSpeedHover(om.ExplicitComponent):
         atm = AtmosphereSI(altitude)
         rho = atm.density
 
-        n = np.sqrt(F / (Ct * rho * D ** 4.))
-        omega = n * 2. * pi
+        n = np.sqrt(F / (Ct * rho * D ** 4.0))
+        omega = n * 2.0 * pi
 
         outputs["data:propeller:frequency:hover"] = n
         outputs["data:propeller:speed:hover"] = omega
@@ -205,7 +206,7 @@ class PowerAndTorqueHover(om.ExplicitComponent):
         atm = AtmosphereSI(altitude)
         rho = atm.density
 
-        P = Cp * rho * n ** 3. * D ** 5.
+        P = Cp * rho * n ** 3.0 * D ** 5.0
         T = P / omega
 
         outputs["data:propeller:power:hover"] = P
@@ -213,12 +214,15 @@ class PowerAndTorqueHover(om.ExplicitComponent):
 
 
 class Propeller(om.Group):
-
     def setup(self):
-        self.add_subsystem("power_thrust_coefficients", PowerAndThrustCoefficients(), promotes=["*"])
+        self.add_subsystem(
+            "power_thrust_coefficients", PowerAndThrustCoefficients(), promotes=["*"]
+        )
         self.add_subsystem("diameter", Diameter(), promotes=["*"])
         self.add_subsystem("speed_takeoff", RotationalSpeedTakeoff(), promotes=["*"])
         self.add_subsystem("mass_inertia", MassAndInertia(), promotes=["*"])
-        self.add_subsystem("power_torque_takeoff", PowerAndTorqueTakeoff(), promotes=["*"])
+        self.add_subsystem(
+            "power_torque_takeoff", PowerAndTorqueTakeoff(), promotes=["*"]
+        )
         self.add_subsystem("speed_hover", RotationalSpeedHover(), promotes=["*"])
         self.add_subsystem("power_torque_hover", PowerAndTorqueHover(), promotes=["*"])

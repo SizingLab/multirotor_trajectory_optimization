@@ -9,7 +9,9 @@ class Mission(om.ExplicitComponent):
 
     def setup(self):
         # self.add_input("data:mission:traval:displacement:height", val=np.nan, units="m")
-        self.add_input("data:mission:travel:displacement:number", val=np.nan, units=None)
+        self.add_input(
+            "data:mission:travel:displacement:number", val=np.nan, units=None
+        )
         # self.add_input("data:mission:travel:time", val=np.nan, units="s")
         self.add_input("data:mission:hover:time", val=np.nan, units="s")
         self.add_input("data:mission:travel:energy", val=np.nan, units="J")

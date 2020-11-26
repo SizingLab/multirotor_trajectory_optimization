@@ -12,7 +12,9 @@ class HoverAndTO(om.ExplicitComponent):
         self.add_input("data:system:MTOW:k", val=np.nan, units=None)
         self.add_input("data:TLAR:payload", val=np.nan, units="kg")
         self.add_input("data:propeller:number", val=np.nan, units=None)
-        self.add_input("data:scenarios:takeoff:acceleration:z:equivalent", val=np.nan, units="N/kg")
+        self.add_input(
+            "data:scenarios:takeoff:acceleration:z:equivalent", val=np.nan, units="N/kg"
+        )
 
         self.add_output("data:system:MTOW:guess", units="kg")
         self.add_output("data:scenarios:takeoff:force:z", units="N")
@@ -31,9 +33,8 @@ class HoverAndTO(om.ExplicitComponent):
         MTOW = k_os * payload
         F_hov = MTOW * g
         F_to = MTOW * (g + a_to)
-        F_pro_hov = F_hov/N_pro
-        F_pro_to = F_to/N_pro
-
+        F_pro_hov = F_hov / N_pro
+        F_pro_to = F_to / N_pro
 
         outputs["data:system:MTOW:guess"] = MTOW
         outputs["data:scenarios:takeoff:force:z"] = F_to
