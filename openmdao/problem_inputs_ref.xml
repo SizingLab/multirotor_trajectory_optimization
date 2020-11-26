@@ -68,7 +68,7 @@
         <time units="s" is_input="True">12.5</time>
       </hover>
       <travel>
-        <energy units="J" is_input="True">2000.0</energy>
+        <energy units="J" is_input="True">90000.0</energy>
         <displacement>
           <number is_input="True">150</number>
         </displacement>

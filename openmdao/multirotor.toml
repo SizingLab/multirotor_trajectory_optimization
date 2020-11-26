@@ -28,3 +28,60 @@ driver = "om.ScipyOptimizeDriver(tol=1e-6, optimizer='SLSQP')"
     #     id = "multirotor.mtow"
     [model.system_constraints]
         id = "multirotor.system_constraints"
+
+[optimization]  # This section is needed only if optimization process is run
+    [[optimization.design_var]]
+        name = "data:propeller:pitch"
+        lower = 0.3
+        upper = 0.6
+    [[optimization.design_var]]
+        name = "data:system:MTOW:k"
+        lower = 1.0
+        upper = 10.0
+    [[optimization.design_var]]
+        name = "data:propeller:ND:k"
+        lower = 1.0
+        upper = 2.0
+    [[optimization.design_var]]
+        name = "data:motor:torque:hover:k"
+        lower = 1.0
+        upper = 2.0
+    [[optimization.design_var]]
+        name = "data:motor:speed:k"
+        lower = 1.0
+        upper = 2.0
+    [[optimization.design_var]]
+        name = "data:battery:mass:k"
+        lower = 0.1
+        upper = 10.0
+    [[optimization.design_var]]
+        name = "data:battery:voltage:k"
+        lower = 1.0
+        upper = 2.0
+    [[optimization.design_var]]
+        name = "data:frame:arm:diameter:k"
+        lower = 0.01
+        upper = 0.99
+    # [[optimization.design_var]]
+    #     name = "data:scenarios:takeoff:acceleration:z:equivalent"
+    #     lower = 0.1
+    #     upper = 1.0
+
+    [[optimization.constraint]]
+        name = "data:motor:torque:max:constraint"
+        upper = 0.0
+    [[optimization.constraint]]
+        name = "data:battery:energy:constraint"
+        upper = 0.0
+    [[optimization.constraint]]
+        name = "data:battery:voltage:constraint"
+        upper = 0.0
+    [[optimization.constraint]]
+        name = "data:esc:voltage:constraint"
+        upper = 0.0
+    [[optimization.constraint]]
+        name = "data:system:MTOW:constraint"
+        upper = 0.0
+
+    [[optimization.objective]]
+        name = "data:system:MTOW"

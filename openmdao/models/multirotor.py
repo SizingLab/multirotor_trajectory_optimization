@@ -137,13 +137,15 @@ class ConstraintBatteryEnergy(om.ExplicitComponent):
         NRJ_bat = inputs["data:battery:energy"]
         NRJ_mission = inputs["data:mission:energy"]
 
-        NRJ_bat_constr = NRJ_mission - NRJ_bat
+        NRJ_bat_constr = NRJ_mission/NRJ_bat - 1
 
         outputs["data:battery:energy:constraint"] = NRJ_bat_constr
 
     def compute_partials(self, inputs, partials, discrete_inputs=None):
-        partials["data:battery:energy:constraint", "data:battery:energy"] = -1.0
-        partials["data:battery:energy:constraint", "data:mission:energy"] = 1.0
+        NRJ_bat = inputs["data:battery:energy"]
+        NRJ_mission = inputs["data:mission:energy"]
+        partials["data:battery:energy:constraint", "data:battery:energy"] = -NRJ_mission/NRJ_bat**2
+        partials["data:battery:energy:constraint", "data:mission:energy"] = 1.0/NRJ_bat
 
 
 class SystemConstraints(om.Group):

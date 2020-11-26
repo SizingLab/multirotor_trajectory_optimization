@@ -1,6 +1,6 @@
 <FASTOAD_model>
   <settings>
-    <altitude units="m" is_input="True">0</altitude>
+    <altitude units="m" is_input="True">0.0</altitude>
   </settings>
   <data>
     <esc>
@@ -13,10 +13,10 @@
       </power>
     </esc>
     <propeller>
-      <number is_input="True">1</number>
+      <number is_input="True">1.0</number>
       <pitch is_input="True">0.5</pitch>
       <ND>
-        <k is_input="True">1</k>
+        <k is_input="True">1.0</k>
         <max is_input="True">44.45</max>
       </ND>
       <diameter>
@@ -27,9 +27,9 @@
       </mass>
     </propeller>
     <system>
-      <payload units="kg" is_input="True">25</payload>
+      <payload units="kg" is_input="True">25.0</payload>
       <MTOW>
-        <k is_input="True">1</k>
+        <k is_input="True">1.0</k>
       </MTOW>
     </system>
     <battery>
@@ -43,18 +43,18 @@
         <ref units="J" is_input="True">260568.0</ref>
       </energy>
       <mass>
-        <k is_input="True">1</k>
+        <k is_input="True">1.0</k>
         <ref units="kg" is_input="True">0.329</ref>
       </mass>
       <voltage>
-        <k is_input="True">1</k>
+        <k is_input="True">1.0</k>
       </voltage>
     </battery>
     <frame>
       <arm>
         <density units="kg/m**3" is_input="True">1700.0</density>
-        <number is_input="True">4</number>
-        <propeller_number is_input="True">1</propeller_number>
+        <number is_input="True">4.0</number>
+        <propeller_number is_input="True">1.0</propeller_number>
         <diameter>
           <k is_input="True">0.1</k>
         </diameter>
@@ -68,9 +68,9 @@
         <time units="s" is_input="True">12.5</time>
       </hover>
       <travel>
-        <energy units="J" is_input="True">2000.0</energy>
+        <energy units="J" is_input="True">90000.0</energy>
         <displacement>
-          <number is_input="True">150</number>
+          <number is_input="True">150.0</number>
         </displacement>
       </travel>
     </mission>
@@ -88,11 +88,11 @@
         <ref units="ohm" is_input="True">0.03</ref>
       </resistance>
       <speed>
-        <k is_input="True">1</k>
+        <k is_input="True">1.0</k>
       </speed>
       <torque>
         <hover>
-          <k is_input="True">1</k>
+          <k is_input="True">1.0</k>
         </hover>
         <max>
           <ref units="N*m" is_input="True">2.82</ref>
