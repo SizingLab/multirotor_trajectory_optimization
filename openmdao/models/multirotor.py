@@ -8,6 +8,7 @@ from .motor import Motor
 from .battery_and_esc import BatteryAndESC
 from .frame import Frame
 from .mission import Mission
+from .trajectory import Model
 
 
 class MTOW(om.ExplicitComponent):
@@ -168,6 +169,7 @@ class Multirotor(om.Group):
         self.add_subsystem("sizing_scenarios", HoverAndTO(), promotes=["*"])
         self.add_subsystem("propeller", Propeller(), promotes=["*"])
         self.add_subsystem("motor", Motor(), promotes=["*"])
+        self.add_subsystem("trajectory", Model(), promotes=["*"])
         self.add_subsystem("battery_and_esc", BatteryAndESC(), promotes=["*"])
         self.add_subsystem("frame", Frame(), promotes=["*"])
         self.add_subsystem("mission", Mission(), promotes=["*"])

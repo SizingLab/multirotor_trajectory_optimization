@@ -17,7 +17,7 @@ class Mission(om.ExplicitComponent):
         self.add_input("data:mission:travel:energy", val=np.nan, units="J")
         self.add_input("data:propeller:number", val=np.nan, units=None)
         self.add_input("data:esc:efficiency", val=np.nan, units=None)
-        self.add_input("data:motor:power:hover", val=np.nan, units=None)
+        self.add_input("data:motor:power:hover", val=np.nan, units="W")
 
         self.add_output("data:mission:hover:energy", units="J")
         self.add_output("data:mission:energy", units="J")

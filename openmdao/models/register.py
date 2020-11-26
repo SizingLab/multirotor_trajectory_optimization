@@ -22,6 +22,7 @@ from .motor import Motor
 from .battery_and_esc import BatteryAndESC
 from .frame import Frame
 from .mission import Mission
+from .trajectory import Model
 
 
 def register_openmdao_systems():
@@ -66,4 +67,8 @@ def register_openmdao_systems():
     # System constraints ################################################################
     OpenMDAOSystemRegistry.register_system(
         SystemConstraints, "multirotor.system_constraints"
+    )
+    # System constraints ################################################################
+    OpenMDAOSystemRegistry.register_system(
+        Model, "multirotor.trajectory"
     )

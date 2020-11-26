@@ -18,6 +18,8 @@ driver = "om.ScipyOptimizeDriver(tol=1e-6, optimizer='SLSQP')"
         id = "multirotor.propeller"
     [model.motor]
         id = "multirotor.motor"
+    [model.trajectory]
+        id = "multirotor.trajectory"
     [model.battery_and_esc]
         id = "multirotor.battery_and_esc"
     [model.frame]
@@ -56,16 +58,20 @@ driver = "om.ScipyOptimizeDriver(tol=1e-6, optimizer='SLSQP')"
         upper = 10.0
     [[optimization.design_var]]
         name = "data:battery:voltage:k"
-        lower = 1.0
+        lower = 0.01
         upper = 2.0
     [[optimization.design_var]]
         name = "data:frame:arm:diameter:k"
         lower = 0.01
         upper = 0.99
-    # [[optimization.design_var]]
-    #     name = "data:scenarios:takeoff:acceleration:z:equivalent"
-    #     lower = 0.1
-    #     upper = 1.0
+    [[optimization.design_var]]
+        name = "torque"
+        lower = 5
+        upper = 100
+    [[optimization.design_var]]
+        name = "final_time"
+        lower = 2.0
+        upper = 10.0
 
     [[optimization.constraint]]
         name = "data:motor:torque:max:constraint"
@@ -83,5 +89,17 @@ driver = "om.ScipyOptimizeDriver(tol=1e-6, optimizer='SLSQP')"
         name = "data:system:MTOW:constraint"
         upper = 0.0
 
+    [[optimization.constraint]]
+        name = "final_speed"
+        lower = 0.0
+        upper = 0.0
+
+    [[optimization.constraint]]
+        name = "final_position"
+        lower=10.0
+        upper=10.0
+        scaler=1e-1
+
     [[optimization.objective]]
         name = "data:system:MTOW"
+        scaler=1e-1
