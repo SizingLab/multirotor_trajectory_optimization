@@ -37,7 +37,7 @@ class MTOW(om.ExplicitComponent):
         M_mot = inputs["data:motor:mass"]
         N_pro = inputs["data:propeller:number"]
 
-        M_total = (M_esc+M_pro+M_mot)*N_pro+M_pay+M_bat+M_frame
+        M_total = (M_esc + M_pro + M_mot) * N_pro + M_pay + M_bat + M_frame
 
         outputs["data:system:MTOW"] = M_total
 
@@ -64,8 +64,8 @@ class ConstraintMTOW(om.ExplicitComponent):
         outputs["data:system:MTOW:constraint"] = MTOW_constr
 
     def compute_partials(self, inputs, partials, discrete_inputs=None):
-        partials["data:system:MTOW:constraint", "data:system:MTOW"] = 1.
-        partials["data:system:MTOW:constraint", "data:system:MTOW:guess"] = -1.
+        partials["data:system:MTOW:constraint", "data:system:MTOW"] = 1.0
+        partials["data:system:MTOW:constraint", "data:system:MTOW:guess"] = -1.0
 
 
 class ConstraintBatteryVoltage(om.ExplicitComponent):
@@ -90,8 +90,8 @@ class ConstraintBatteryVoltage(om.ExplicitComponent):
         outputs["data:battery:voltage:constraint"] = U_bat_constr
 
     def compute_partials(self, inputs, partials, discrete_inputs=None):
-        partials["data:battery:voltage:constraint", "data:battery:voltage"] = -1.
-        partials["data:battery:voltage:constraint", "data:motor:voltage:takeoff"] = 1.
+        partials["data:battery:voltage:constraint", "data:battery:voltage"] = -1.0
+        partials["data:battery:voltage:constraint", "data:motor:voltage:takeoff"] = 1.0
 
 
 class ConstraintESCVoltage(om.ExplicitComponent):
@@ -116,8 +116,8 @@ class ConstraintESCVoltage(om.ExplicitComponent):
         outputs["data:esc:voltage:constraint"] = U_esc_constr
 
     def compute_partials(self, inputs, partials, discrete_inputs=None):
-        partials["data:esc:voltage:constraint", "data:esc:voltage"] = -1.
-        partials["data:esc:voltage:constraint", "data:motor:voltage:takeoff"] = 1.
+        partials["data:esc:voltage:constraint", "data:esc:voltage"] = -1.0
+        partials["data:esc:voltage:constraint", "data:motor:voltage:takeoff"] = 1.0
 
 
 class ConstraintBatteryEnergy(om.ExplicitComponent):
@@ -142,21 +142,26 @@ class ConstraintBatteryEnergy(om.ExplicitComponent):
         outputs["data:battery:energy:constraint"] = NRJ_bat_constr
 
     def compute_partials(self, inputs, partials, discrete_inputs=None):
-        partials["data:battery:energy:constraint", "data:battery:energy"] = -1.
-        partials["data:battery:energy:constraint", "data:mission:energy"] = 1.
+        partials["data:battery:energy:constraint", "data:battery:energy"] = -1.0
+        partials["data:battery:energy:constraint", "data:mission:energy"] = 1.0
 
 
 class SystemConstraints(om.Group):
-
     def setup(self):
+        self.add_subsystem("mtow", MTOW(), promotes=["*"])
         self.add_subsystem("constraint_mtow", ConstraintMTOW(), promotes=["*"])
-        self.add_subsystem("constraint_battery_voltage", ConstraintBatteryVoltage(), promotes=["*"])
-        self.add_subsystem("constraint_esc_voltage", ConstraintESCVoltage(), promotes=["*"])
-        self.add_subsystem("constraint_battery_energy", ConstraintBatteryEnergy(), promotes=["*"])
+        self.add_subsystem(
+            "constraint_battery_voltage", ConstraintBatteryVoltage(), promotes=["*"]
+        )
+        self.add_subsystem(
+            "constraint_esc_voltage", ConstraintESCVoltage(), promotes=["*"]
+        )
+        self.add_subsystem(
+            "constraint_battery_energy", ConstraintBatteryEnergy(), promotes=["*"]
+        )
 
 
 class Multirotor(om.Group):
-
     def setup(self):
         self.add_subsystem("sizing_scenarios", HoverAndTO(), promotes=["*"])
         self.add_subsystem("propeller", Propeller(), promotes=["*"])

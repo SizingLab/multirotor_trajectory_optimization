@@ -68,7 +68,7 @@ class RotationalSpeedTakeoff(om.ExplicitComponent):
 
     def setup(self):
         self.add_input("data:propeller:ND", val=np.nan, units=None)
-        self.add_input("data:propeller:diameter", val=np.nan, units="")
+        self.add_input("data:propeller:diameter", val=np.nan, units="m")
 
         self.add_output("data:propeller:frequency:takeoff", units="Hz")
         self.add_output("data:propeller:speed:takeoff", units="rad/s")
@@ -213,6 +213,28 @@ class PowerAndTorqueHover(om.ExplicitComponent):
         outputs["data:propeller:torque:hover"] = T
 
 
+class BatteryVoltageEstimation(om.ExplicitComponent):
+    """
+    Computes an estimation of battery voltage
+    """
+
+    def setup(self):
+        self.add_input("data:battery:voltage:k", val=np.nan, units=None)
+        self.add_input("data:propeller:power:takeoff", val=np.nan, units="W")
+
+        self.add_output("data:battery:voltage:guess", units="V")
+
+        self.declare_partials("*", "*", method="fd")
+
+    def compute(self, inputs, outputs, discrete_inputs=None, discrete_outputs=None):
+        k_vb = inputs["data:battery:voltage:k"]
+        P_pro_to = inputs["data:propeller:power:takeoff"]
+
+        U_bat_est = k_vb * 1.84 * P_pro_to ** (0.36)  # [V] battery voltage estimation
+
+        outputs["data:battery:voltage:guess"] = U_bat_est
+
+
 class Propeller(om.Group):
     def setup(self):
         self.add_subsystem(
@@ -226,3 +248,4 @@ class Propeller(om.Group):
         )
         self.add_subsystem("speed_hover", RotationalSpeedHover(), promotes=["*"])
         self.add_subsystem("power_torque_hover", PowerAndTorqueHover(), promotes=["*"])
+        self.add_subsystem("battery_voltage_estimation", BatteryVoltageEstimation(), promotes=["*"])

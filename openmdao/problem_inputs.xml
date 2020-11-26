@@ -1,0 +1,115 @@
+<FASTOAD_model>
+  <settings>
+    <altitude units="m" is_input="True">0</altitude>
+  </settings>
+  <data>
+    <esc>
+      <efficiency is_input="True">0.95</efficiency>
+      <mass>
+        <ref units="kg" is_input="True">0.115</ref>
+      </mass>
+      <power>
+        <ref units="W" is_input="True">3108.0</ref>
+      </power>
+    </esc>
+    <propeller>
+      <number is_input="True">1</number>
+      <pitch is_input="True">0.5</pitch>
+      <ND>
+        <k is_input="True">1</k>
+        <max is_input="True">44.45</max>
+      </ND>
+      <diameter>
+        <ref units="m" is_input="True">0.2794</ref>
+      </diameter>
+      <mass>
+        <ref units="kg" is_input="True">0.014999</ref>
+      </mass>
+    </propeller>
+    <system>
+      <payload units="kg" is_input="True">25</payload>
+      <MTOW>
+        <k is_input="True">1</k>
+      </MTOW>
+    </system>
+    <battery>
+      <capacity>
+        <discharge_limit is_input="True">0.2</discharge_limit>
+      </capacity>
+      <cell>
+        <voltage units="V" is_input="True">3.7</voltage>
+      </cell>
+      <energy>
+        <ref units="J" is_input="True">260568.0</ref>
+      </energy>
+      <mass>
+        <k is_input="True">1</k>
+        <ref units="kg" is_input="True">0.329</ref>
+      </mass>
+      <voltage>
+        <k is_input="True">1</k>
+      </voltage>
+    </battery>
+    <frame>
+      <arm>
+        <density units="kg/m**3" is_input="True">1700.0</density>
+        <number is_input="True">4</number>
+        <propeller_number is_input="True">1</propeller_number>
+        <diameter>
+          <k is_input="True">0.1</k>
+        </diameter>
+        <stress>
+          <max units="Pa" is_input="True">70000000.0</max>
+        </stress>
+      </arm>
+    </frame>
+    <mission>
+      <hover>
+        <time units="s" is_input="True">12.5</time>
+      </hover>
+      <travel>
+        <energy units="J" is_input="True">2000.0</energy>
+        <displacement>
+          <number is_input="True">150</number>
+        </displacement>
+      </travel>
+    </mission>
+    <motor>
+      <Kt>
+        <ref units="N*m/A" is_input="True">0.03</ref>
+      </Kt>
+      <friction>
+        <ref units="N*m/A" is_input="True">0.03</ref>
+      </friction>
+      <mass>
+        <ref units="kg" is_input="True">0.575</ref>
+      </mass>
+      <resistance>
+        <ref units="ohm" is_input="True">0.03</ref>
+      </resistance>
+      <speed>
+        <k is_input="True">1</k>
+      </speed>
+      <torque>
+        <hover>
+          <k is_input="True">1</k>
+        </hover>
+        <max>
+          <ref units="N*m" is_input="True">2.82</ref>
+        </max>
+        <nominal>
+          <ref units="N*m" is_input="True">2.32</ref>
+        </nominal>
+      </torque>
+    </motor>
+    <scenarios>
+      <takeoff>
+        <acceleration>
+          <z>
+            <equivalent units="N/kg" is_input="True">2.45</equivalent>
+          </z>
+        </acceleration>
+      </takeoff>
+    </scenarios>
+  </data>
+</FASTOAD_model>

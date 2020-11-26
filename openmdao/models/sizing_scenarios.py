@@ -10,7 +10,7 @@ class HoverAndTO(om.ExplicitComponent):
 
     def setup(self):
         self.add_input("data:system:MTOW:k", val=np.nan, units=None)
-        self.add_input("data:TLAR:payload", val=np.nan, units="kg")
+        self.add_input("data:system:payload", val=np.nan, units="kg")
         self.add_input("data:propeller:number", val=np.nan, units=None)
         self.add_input(
             "data:scenarios:takeoff:acceleration:z:equivalent", val=np.nan, units="N/kg"
@@ -26,7 +26,7 @@ class HoverAndTO(om.ExplicitComponent):
 
     def compute(self, inputs, outputs, discrete_inputs=None, discrete_outputs=None):
         k_os = inputs["data:system:MTOW:k"]
-        payload = inputs["data:TLAR:payload"]
+        payload = inputs["data:system:payload"]
         N_pro = inputs["data:propeller:number"]
         a_to = inputs["data:scenarios:takeoff:acceleration:z:equivalent"]
 

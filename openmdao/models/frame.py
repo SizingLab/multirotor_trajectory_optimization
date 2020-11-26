@@ -42,7 +42,7 @@ class ArmLength(om.ExplicitComponent):
 
         L_arm = D_pro / (2.0 * np.sin(alpha_sep / 2.0))
 
-        outputs["data:frame:separation_angle"] = L_arm
+        outputs["data:frame:arm:length"] = L_arm
 
 
 class TubeDiameterAndThickness(om.ExplicitComponent):
@@ -110,8 +110,13 @@ class Mass(om.ExplicitComponent):
         L_arm = inputs["data:frame:arm:length"]
         N_arm = inputs["data:frame:arm:number"]
 
-        M_arm = pi / 4. * (D_out_arm ** 2. - (
-                    D_out_arm - 2. * e_arm) ** 2) * L_arm * rho_s
+        M_arm = (
+            pi
+            / 4.0
+            * (D_out_arm ** 2.0 - (D_out_arm - 2.0 * e_arm) ** 2)
+            * L_arm
+            * rho_s
+        )
         M_frame = N_arm * M_arm / 0.4
 
         outputs["data:frame:arm:mass"] = M_arm
@@ -122,5 +127,7 @@ class Frame(om.Group):
     def setup(self):
         self.add_subsystem("separation_angle", SeparationAngle(), promotes=["*"])
         self.add_subsystem("arm_length", ArmLength(), promotes=["*"])
-        self.add_subsystem("diameter_and_thickness", TubeDiameterAndThickness(), promotes=["*"])
+        self.add_subsystem(
+            "diameter_and_thickness", TubeDiameterAndThickness(), promotes=["*"]
+        )
         self.add_subsystem("mass", Mass(), promotes=["*"])

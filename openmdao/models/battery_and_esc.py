@@ -11,7 +11,7 @@ class BatteryVoltage(om.ExplicitComponent):
         self.add_input("data:battery:cell:voltage", val=np.nan, units="V")
         self.add_input("data:battery:voltage:guess", val=np.nan, units="V")
 
-        self.add_output("data:battery:voltage:guess", units="V")
+        self.add_output("data:battery:voltage", units="V")
         self.add_output("data:battery:cell:number", units=None)
 
         self.declare_partials("*", "*", method="fd")
@@ -23,7 +23,7 @@ class BatteryVoltage(om.ExplicitComponent):
         N_s_bat = U_bat_est / U_cell
         U_bat = 3.7 * N_s_bat
 
-        outputs["data:battery:voltage:guess"] = U_bat
+        outputs["data:battery:voltage"] = U_bat
         outputs["data:battery:cell:number"] = N_s_bat
 
 
@@ -86,14 +86,11 @@ class ESCPower(om.ExplicitComponent):
     """
 
     def setup(self):
-        self.add_input("data:battery:energy:ref", val=np.nan, units="J")
-        self.add_input("data:battery:mass", val=np.nan, units="kg")
-        self.add_input("data:battery:mass:ref", val=np.nan, units="kg")
-        self.add_input("data:battery:capacity:discharge_limit", val=np.nan, units=None)
+        self.add_input("data:motor:power:takeoff", val=np.nan, units="W")
+        self.add_input("data:motor:voltage:takeoff", val=np.nan, units="V")
         self.add_input("data:battery:voltage", val=np.nan, units="V")
 
-        self.add_output("data:battery:energy", units="J")
-        self.add_output("data:battery:capacity", units="A*s")
+        self.add_output("data:esc:power", units="W")
 
         self.declare_partials("*", "*", method="fd")
 

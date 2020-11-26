@@ -60,11 +60,11 @@ class ScalingLaws(om.ExplicitComponent):
         self.add_input("data:motor:Kt", val=np.nan, units="N*m/A")
         self.add_input("data:motor:Kt:ref", val=np.nan, units="N*m/A")
         self.add_input("data:motor:mass:ref", val=np.nan, units="kg")
-        self.add_input("data:motor:resistance:ref", val=np.nan, units="Ohm")
+        self.add_input("data:motor:resistance:ref", val=np.nan, units="ohm")
         self.add_input("data:motor:friction:ref", val=np.nan, units="N*m/A")
 
         self.add_output("data:motor:mass", units="kg")
-        self.add_output("data:motor:resistance", units="Ohm")
+        self.add_output("data:motor:resistance", units="ohm")
         self.add_output("data:motor:friction", units="N*m")
         self.add_output("data:motor:torque:max", units="N*m")
 
@@ -103,7 +103,7 @@ class CurrentAndVoltage(om.ExplicitComponent):
         self.add_input("data:propeller:speed:takeoff", val=np.nan, units="rad/s")
         self.add_input("data:motor:Kt", val=np.nan, units="N*m/A")
         self.add_input("data:motor:friction", val=np.nan, units="N*m")
-        self.add_input("data:motor:resistance", val=np.nan, units="Ohm")
+        self.add_input("data:motor:resistance", val=np.nan, units="ohm")
 
         self.add_output("data:motor:current:hover", units="A")
         self.add_output("data:motor:current:takeoff", units="A")
@@ -163,8 +163,10 @@ class ConstraintMotorTorque(om.ExplicitComponent):
         outputs["data:motor:torque:max:constraint"] = T_mot_constr
 
     def compute_partials(self, inputs, partials, discrete_inputs=None):
-        partials["data:motor:torque:max:constraint", "data:motor:torque:max"] = -1.
-        partials["data:motor:torque:max:constraint", "data:propeller:torque:takeoff"] = 1.
+        partials["data:motor:torque:max:constraint", "data:motor:torque:max"] = -1.0
+        partials[
+            "data:motor:torque:max:constraint", "data:propeller:torque:takeoff"
+        ] = 1.0
 
 
 class Motor(om.Group):
