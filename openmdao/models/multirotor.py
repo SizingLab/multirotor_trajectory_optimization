@@ -54,7 +54,7 @@ class ConstraintMTOW(om.ExplicitComponent):
 
         self.add_output("data:system:MTOW:constraint", units="kg")
 
-        self.declare_partials("*", "*", method="fd")
+        self.declare_partials("*", "*", method="exact")
 
     def compute(self, inputs, outputs, discrete_inputs=None, discrete_outputs=None):
         MTOW = inputs["data:system:MTOW"]
@@ -80,7 +80,7 @@ class ConstraintBatteryVoltage(om.ExplicitComponent):
 
         self.add_output("data:battery:voltage:constraint", units="V")
 
-        self.declare_partials("*", "*", method="fd")
+        self.declare_partials("*", "*", method="exact")
 
     def compute(self, inputs, outputs, discrete_inputs=None, discrete_outputs=None):
         U_bat = inputs["data:battery:voltage"]
@@ -106,7 +106,7 @@ class ConstraintESCVoltage(om.ExplicitComponent):
 
         self.add_output("data:esc:voltage:constraint", units="V")
 
-        self.declare_partials("*", "*", method="fd")
+        self.declare_partials("*", "*", method="exact")
 
     def compute(self, inputs, outputs, discrete_inputs=None, discrete_outputs=None):
         U_esc = inputs["data:esc:voltage"]
@@ -132,21 +132,77 @@ class ConstraintBatteryEnergy(om.ExplicitComponent):
 
         self.add_output("data:battery:energy:constraint", units="J")
 
-        self.declare_partials("*", "*", method="fd")
+        self.declare_partials("*", "*", method="exact")
 
     def compute(self, inputs, outputs, discrete_inputs=None, discrete_outputs=None):
         NRJ_bat = inputs["data:battery:energy"]
         NRJ_mission = inputs["data:mission:energy"]
 
-        NRJ_bat_constr = NRJ_mission/NRJ_bat - 1
+        NRJ_bat_constr = NRJ_mission / NRJ_bat - 1
 
         outputs["data:battery:energy:constraint"] = NRJ_bat_constr
 
     def compute_partials(self, inputs, partials, discrete_inputs=None):
         NRJ_bat = inputs["data:battery:energy"]
         NRJ_mission = inputs["data:mission:energy"]
-        partials["data:battery:energy:constraint", "data:battery:energy"] = -NRJ_mission/NRJ_bat**2
-        partials["data:battery:energy:constraint", "data:mission:energy"] = 1.0/NRJ_bat
+        partials["data:battery:energy:constraint", "data:battery:energy"] = (
+            -NRJ_mission / NRJ_bat ** 2
+        )
+        partials["data:battery:energy:constraint", "data:mission:energy"] = (
+            1.0 / NRJ_bat
+        )
+
+
+class ConstraintMaxTorque(om.ExplicitComponent):
+    """
+    Computes the constraint for the mission max torque
+    """
+
+    def setup(self):
+        self.add_input("data:trajectory:torque:max", val=np.nan, units="N*m")
+        self.add_input("data:propeller:torque:takeoff", val=np.nan, units="N*m")
+
+        self.add_output("data:propeller:torque:takeoff:constraint", units="N*m")
+
+        self.declare_partials("*", "*", method="exact")
+
+    def compute(self, inputs, outputs, discrete_inputs=None, discrete_outputs=None):
+        T_mission = inputs["data:trajectory:torque:max"]
+        T_pro = inputs["data:propeller:torque:takeoff"]
+
+        T_pro_constr = T_mission - T_pro
+
+        outputs["data:propeller:torque:takeoff:constraint"] = T_pro_constr
+
+    def compute_partials(self, inputs, partials, discrete_inputs=None):
+        partials["data:propeller:torque:takeoff:constraint", "data:trajectory:torque:max"] = 1.0
+        partials["data:propeller:torque:takeoff:constraint", "data:propeller:torque:takeoff"] = -1.0
+
+
+class ConstraintMaxSpeed(om.ExplicitComponent):
+    """
+    Computes the constraint for the mission max speed
+    """
+
+    def setup(self):
+        self.add_input("data:trajectory:rotational_speed:max", val=np.nan, units="rad/s")
+        self.add_input("data:propeller:speed:takeoff", val=np.nan, units="rad/s")
+
+        self.add_output("data:propeller:speed:takeoff:constraint", units="rad/s")
+
+        self.declare_partials("*", "*", method="exact")
+
+    def compute(self, inputs, outputs, discrete_inputs=None, discrete_outputs=None):
+        W_mission = inputs["data:trajectory:rotational_speed:max"]
+        W_pro = inputs["data:propeller:speed:takeoff"]
+
+        W_pro_constr = W_mission - W_pro
+
+        outputs["data:propeller:speed:takeoff:constraint"] = W_pro_constr
+
+    def compute_partials(self, inputs, partials, discrete_inputs=None):
+        partials["data:propeller:speed:takeoff:constraint", "data:trajectory:rotational_speed:max"] = 1.0
+        partials["data:propeller:speed:takeoff:constraint", "data:propeller:speed:takeoff"] = -1.0
 
 
 class SystemConstraints(om.Group):
@@ -161,6 +217,13 @@ class SystemConstraints(om.Group):
         )
         self.add_subsystem(
             "constraint_battery_energy", ConstraintBatteryEnergy(), promotes=["*"]
+        )
+        self.add_subsystem(
+            "constraint_max_torque", ConstraintMaxTorque(), promotes=["*"]
+        )
+
+        self.add_subsystem(
+            "constraint_max_speed", ConstraintMaxSpeed(), promotes=["*"]
         )
 
 

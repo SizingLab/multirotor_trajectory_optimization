@@ -37,29 +37,17 @@ def register_openmdao_systems():
     #     Multirotor, "multirotor.system"
     # )
     # Sizing scenarios ################################################################
-    OpenMDAOSystemRegistry.register_system(
-        HoverAndTO, "multirotor.sizing_scenarios"
-    )
+    OpenMDAOSystemRegistry.register_system(HoverAndTO, "multirotor.sizing_scenarios")
     # Propeller ################################################################
-    OpenMDAOSystemRegistry.register_system(
-        Propeller, "multirotor.propeller"
-    )
+    OpenMDAOSystemRegistry.register_system(Propeller, "multirotor.propeller")
     # Motor ################################################################
-    OpenMDAOSystemRegistry.register_system(
-        Motor, "multirotor.motor"
-    )
+    OpenMDAOSystemRegistry.register_system(Motor, "multirotor.motor")
     # Battery and ESC ################################################################
-    OpenMDAOSystemRegistry.register_system(
-        BatteryAndESC, "multirotor.battery_and_esc"
-    )
+    OpenMDAOSystemRegistry.register_system(BatteryAndESC, "multirotor.battery_and_esc")
     # Frame ################################################################
-    OpenMDAOSystemRegistry.register_system(
-        Frame, "multirotor.frame"
-    )
+    OpenMDAOSystemRegistry.register_system(Frame, "multirotor.frame")
     # Mission ################################################################
-    OpenMDAOSystemRegistry.register_system(
-        Mission, "multirotor.mission"
-    )
+    OpenMDAOSystemRegistry.register_system(Mission, "multirotor.mission")
     # # MTOW ################################################################
     # OpenMDAOSystemRegistry.register_system(
     #     MTOW, "multirotor.mtow"
@@ -69,6 +57,4 @@ def register_openmdao_systems():
         SystemConstraints, "multirotor.system_constraints"
     )
     # System constraints ################################################################
-    OpenMDAOSystemRegistry.register_system(
-        Model, "multirotor.trajectory"
-    )
+    OpenMDAOSystemRegistry.register_system(Model, "multirotor.trajectory")

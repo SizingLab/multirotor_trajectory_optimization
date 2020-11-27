@@ -20,7 +20,7 @@ class BatteryVoltage(om.ExplicitComponent):
         U_cell = inputs["data:battery:cell:voltage"]
         U_bat_est = inputs["data:battery:voltage:guess"]
 
-        N_s_bat = U_bat_est / U_cell
+        N_s_bat = np.ceil(U_bat_est / U_cell)
         U_bat = 3.7 * N_s_bat
 
         outputs["data:battery:voltage"] = U_bat

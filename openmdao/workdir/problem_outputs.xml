@@ -1,0 +1,149 @@
+<FASTOAD_model>
+  <settings>
+    <altitude units="m" is_input="True">0.0</altitude>
+  </settings>
+  <data>
+    <battery>
+      <capacity units="A*s" is_input="False">153417.3254360088<discharge_limit is_input="True">0.2</discharge_limit></capacity>
+      <energy units="J" is_input="False">19299899.53984991<constraint units="J" is_input="False">1.1873707150833468e-07</constraint><ref units="J" is_input="True">260568.0</ref></energy>
+      <mass units="kg" is_input="False">30.460700031328773<k is_input="True">1.218428001253151</k><ref units="kg" is_input="True">0.329</ref></mass>
+      <voltage units="V" is_input="False">125.80000000000001<constraint units="V" is_input="False">-48.46073612549269</constraint><guess units="V" is_input="False">123.96940111390934</guess><k is_input="True">1.9830976865330696</k></voltage>
+      <cell>
+        <number is_input="False">34.0</number>
+        <voltage units="V" is_input="True">3.7</voltage>
+      </cell>
+    </battery>
+    <esc>
+      <efficiency is_input="True">0.95</efficiency>
+      <mass units="kg" is_input="False">1.1972019661518738<ref units="kg" is_input="True">0.115</ref></mass>
+      <power units="W" is_input="False">32355.68444173934<ref units="W" is_input="True">3108.0</ref></power>
+      <voltage units="V" is_input="False">77.33926418636011<constraint units="V" is_input="False">-3.1185278714929154e-07</constraint></voltage>
+    </esc>
+    <frame>
+      <mass units="kg" is_input="False">10.149074089863173</mass>
+      <separation_angle units="rad" is_input="False">1.5707963267948966</separation_angle>
+      <arm>
+        <density units="kg/m**3" is_input="True">1700.0</density>
+        <length units="m" is_input="False">1.1721360444949318</length>
+        <mass units="kg" is_input="False">1.0149074089863175</mass>
+        <number is_input="True">4.0</number>
+        <propeller_number is_input="True">1.0</propeller_number>
+        <thickness units="m" is_input="False">0.001279697204324849</thickness>
+        <diameter>
+          <inner units="m" is_input="False">0.12669001468985472</inner>
+          <k is_input="True">0.010000000667212983</k>
+          <outer units="m" is_input="False">0.12796971189417958</outer>
+        </diameter>
+        <stress>
+          <max units="Pa" is_input="True">70000000.0</max>
+        </stress>
+      </arm>
+    </frame>
+    <mission>
+      <energy units="J" is_input="False">19299901.831463464</energy>
+      <hover>
+        <energy units="J" is_input="False">11145541.720920822</energy>
+        <time units="s" is_input="True">12.5</time>
+      </hover>
+      <travel>
+        <energy units="J" is_input="False">163087.20221085282</energy>
+        <displacement>
+          <number is_input="True">50.0</number>
+        </displacement>
+      </travel>
+    </mission>
+    <motor>
+      <Kt units="N*m/A" is_input="False">0.3262278763762459<ref units="N*m/A" is_input="True">0.03</ref></Kt>
+      <friction units="N*m" is_input="False">0.5466683305366202<ref units="N*m/A" is_input="True">0.03</ref></friction>
+      <mass units="kg" is_input="False">10.477809668618553<ref units="kg" is_input="True">0.575</ref></mass>
+      <resistance units="ohm" is_input="False">0.028113599212758945<ref units="ohm" is_input="True">0.03</ref></resistance>
+      <current>
+        <hover units="A" is_input="False">206.0946645773541</hover>
+        <takeoff units="A" is_input="False">257.19939937789616</takeoff>
+      </current>
+      <power>
+        <hover units="W" is_input="False">14117.68617983304</hover>
+        <takeoff units="W" is_input="False">19891.612216851907</takeoff>
+      </power>
+      <speed>
+        <k is_input="True">1.7682515880931555</k>
+      </speed>
+      <torque>
+        <hover units="N*m" is_input="False">68.57899063436864<k is_input="True">1.0283687940635315</k></hover>
+        <max units="N*m" is_input="False">83.35894551246533<constraint units="N*m" is_input="False">2.129506526671321e-08</constraint><ref units="N*m" is_input="True">2.82</ref></max>
+        <nominal>
+          <ref units="N*m" is_input="True">2.32</ref>
+        </nominal>
+      </torque>
+      <voltage>
+        <hover units="V" is_input="False">68.50097846436101</hover>
+        <takeoff units="V" is_input="False">77.33926387450732</takeoff>
+      </voltage>
+    </motor>
+    <propeller>
+      <Cp is_input="False">0.029200825528732606</Cp>
+      <Ct is_input="False">0.08815307485738164</Ct>
+      <ND is_input="False">56.69731962118484<k is_input="True">0.7839876787295488</k><max is_input="True">44.45</max></ND>
+      <diameter units="m" is_input="False">1.6576506910710864<ref units="m" is_input="True">0.2794</ref></diameter>
+      <inertia units="kg*m**2" is_input="False">0.12089277083114146</inertia>
+      <mass units="kg" is_input="False">0.5279533374553146<ref units="kg" is_input="True">0.014999</ref></mass>
+      <number is_input="True">1.0</number>
+      <pitch is_input="True">0.3156463531762614</pitch>
+      <frequency>
+        <hover units="Hz" is_input="False">30.592467157983446</hover>
+        <takeoff units="Hz" is_input="False">34.20341808234039</takeoff>
+      </frequency>
+      <power>
+        <hover units="W" is_input="False">12818.481180786186</hover>
+        <takeoff units="W" is_input="False">17914.3720553373</takeoff>
+      </power>
+      <speed>
+        <hover units="rad/s" is_input="False">192.21814015741563</hover>
+        <takeoff units="rad/s" is_input="False">214.90641395028172<constraint units="rad/s" is_input="False">-178.75126176145446</constraint></takeoff>
+      </speed>
+      <torque>
+        <hover units="N*m" is_input="False">66.68715642700832</hover>
+        <takeoff units="N*m" is_input="False">83.35894553376039<constraint units="N*m" is_input="False">7.78582383986759e-06</constraint></takeoff>
+      </torque>
+      <force>
+        <hover>
+          <z units="N" is_input="False">763.0823081061393</z>
+        </hover>
+        <takeoff>
+          <z units="N" is_input="False">953.852885132674</z>
+        </takeoff>
+      </force>
+    </propeller>
+    <system>
+      <MTOW units="kg" is_input="False">77.81273909341769<constraint units="kg" is_input="False">-1.0478272116642984e-06</constraint><guess units="kg" is_input="False">77.8127401412449</guess><k is_input="True">3.1125096056497963</k></MTOW>
+      <payload units="kg" is_input="True">25.0<surface units="m**2" is_input="True">0.16</surface></payload>
+    </system>
+    <trajectory>
+      <final_position units="m" is_input="False">9.99999376930863</final_position>
+      <final_speed units="m/s" is_input="False">9.455600550739574e-07</final_speed>
+      <final_time units="s" is_input="True">3.6170322514630135</final_time>
+      <time units="s" is_input="False">[0.0, 0.24113548343086758, 0.4822709668617351, 0.7234064502926028, 0.9645419337234703, 1.2056774171543378, 1.4468129005852055, 1.687948384016073, 1.9290838674469406, 2.170219350877808, 2.411354834308676, 2.6524903177395434, 2.893625801170411, 3.134761284601279, 3.375896768032146, 3.617032251463014]</time>
+      <torque units="N*m" is_input="True">[83.34519120671303, 83.33997244392826, 83.3591300973238, 83.34652836988879, 83.34977428645544, 82.53010025299682, 83.34155111830187, 82.44681529372482, 83.31565936090846, 83.35151241923514, 83.07566625143394, 83.34816310912855, 7.522166764385601, 5.0, 5.0000009879377725, 84.58096290788278]<max units="N*m" is_input="False">83.35895331958423</max></torque>
+      <rotational_speed>
+        <max units="rad/s" is_input="False">36.15515218882726</max>
+      </rotational_speed>
+    </trajectory>
+    <scenarios>
+      <hover>
+        <force>
+          <z units="N" is_input="False">763.0823081061393</z>
+        </force>
+      </hover>
+      <takeoff>
+        <force>
+          <z units="N" is_input="False">953.852885132674</z>
+        </force>
+        <acceleration>
+          <z>
+            <equivalent units="N/kg" is_input="True">0.25</equivalent>
+          </z>
+        </acceleration>
+      </takeoff>
+    </scenarios>
+  </data>
+</FASTOAD_model>

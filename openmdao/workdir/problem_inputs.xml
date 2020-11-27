@@ -27,11 +27,15 @@
       </mass>
     </propeller>
     <system>
-      <payload units="kg" is_input="True">25.0</payload>
+      <payload units="kg" is_input="True">25.0<surface units="m**2" is_input="True">0.16</surface></payload>
       <MTOW>
         <k is_input="True">1.0</k>
       </MTOW>
     </system>
+    <trajectory>
+      <final_time units="s" is_input="True">4.0</final_time>
+      <torque units="N*m" is_input="True">[80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0]</torque>
+    </trajectory>
     <battery>
       <capacity>
         <discharge_limit is_input="True">0.2</discharge_limit>
@@ -69,7 +73,7 @@
       </hover>
       <travel>
         <displacement>
-          <number is_input="True">150.0</number>
+          <number is_input="True">50.0</number>
         </displacement>
       </travel>
     </mission>
@@ -105,7 +109,7 @@
       <takeoff>
         <acceleration>
           <z>
-            <equivalent units="N/kg" is_input="True">2.45</equivalent>
+            <equivalent units="N/kg" is_input="True">0.25</equivalent>
           </z>
         </acceleration>
       </takeoff>

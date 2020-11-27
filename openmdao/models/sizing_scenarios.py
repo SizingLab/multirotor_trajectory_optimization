@@ -32,7 +32,7 @@ class HoverAndTO(om.ExplicitComponent):
 
         MTOW = k_os * payload
         F_hov = MTOW * g
-        F_to = MTOW * (g + a_to)
+        F_to = MTOW * (g + a_to*g)
         F_pro_hov = F_hov / N_pro
         F_pro_to = F_to / N_pro
 

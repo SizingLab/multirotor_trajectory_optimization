@@ -4,11 +4,11 @@ title = "Multirotor design"
 module_folders = ["models"]
 
 # Input and output files
-input_file = "./problem_inputs.xml"
-output_file = "./problem_outputs.xml"
+input_file = "../workdir/problem_inputs.xml"
+output_file = "../workdir/problem_outputs.xml"
 
 # Definition of problem driver assuming the OpenMDAO convention "import openmdao.api as om"
-driver = "om.ScipyOptimizeDriver(tol=1e-6, optimizer='SLSQP')"
+driver = "om.ScipyOptimizeDriver(tol=1e-3, optimizer='SLSQP', maxiter=300)"
 
 # Definition of OpenMDAO model
 [model]
@@ -20,6 +20,10 @@ driver = "om.ScipyOptimizeDriver(tol=1e-6, optimizer='SLSQP')"
         id = "multirotor.motor"
     [model.trajectory]
         id = "multirotor.trajectory"
+        num_points=16
+        num_simu_points=500
+        final_time=3.0
+        initial_torque=80.0
     [model.battery_and_esc]
         id = "multirotor.battery_and_esc"
     [model.frame]
@@ -39,14 +43,14 @@ driver = "om.ScipyOptimizeDriver(tol=1e-6, optimizer='SLSQP')"
     [[optimization.design_var]]
         name = "data:system:MTOW:k"
         lower = 1.0
-        upper = 10.0
+        upper = 5.0
     [[optimization.design_var]]
         name = "data:propeller:ND:k"
-        lower = 1.0
-        upper = 2.0
+        lower = 0.5
+        upper = 5.0
     [[optimization.design_var]]
         name = "data:motor:torque:hover:k"
-        lower = 1.0
+        lower = 0.5
         upper = 2.0
     [[optimization.design_var]]
         name = "data:motor:speed:k"
@@ -58,20 +62,25 @@ driver = "om.ScipyOptimizeDriver(tol=1e-6, optimizer='SLSQP')"
         upper = 10.0
     [[optimization.design_var]]
         name = "data:battery:voltage:k"
-        lower = 0.01
+        lower = 1.0
         upper = 2.0
     [[optimization.design_var]]
         name = "data:frame:arm:diameter:k"
         lower = 0.01
         upper = 0.99
     [[optimization.design_var]]
-        name = "torque"
+        name = "data:trajectory:torque"
         lower = 5
-        upper = 100
+        upper = 200
+        scaler=1e-2
     [[optimization.design_var]]
-        name = "final_time"
+        name = "data:trajectory:final_time"
         lower = 2.0
-        upper = 10.0
+        upper = 8.0
+    # [[optimization.design_var]]
+    #     name = "data:scenarios:takeoff:acceleration:z:equivalent"
+    #     lower = 0.1
+    #     upper = 2.0
 
     [[optimization.constraint]]
         name = "data:motor:torque:max:constraint"
@@ -89,15 +98,22 @@ driver = "om.ScipyOptimizeDriver(tol=1e-6, optimizer='SLSQP')"
         name = "data:system:MTOW:constraint"
         upper = 0.0
 
+    # [[optimization.constraint]]
+    #     name = "data:propeller:speed:takeoff:constraint"
+    #     upper = 0.0
+#
     [[optimization.constraint]]
-        name = "final_speed"
+        name = "data:propeller:torque:takeoff:constraint"
+        upper = 0.0
+
+    [[optimization.constraint]]
+        name = "data:trajectory:final_speed"
         lower = 0.0
         upper = 0.0
 
     [[optimization.constraint]]
-        name = "final_position"
+        name = "data:trajectory:final_position"
         lower=10.0
-        upper=10.0
         scaler=1e-1
 
     [[optimization.objective]]

@@ -248,4 +248,6 @@ class Propeller(om.Group):
         )
         self.add_subsystem("speed_hover", RotationalSpeedHover(), promotes=["*"])
         self.add_subsystem("power_torque_hover", PowerAndTorqueHover(), promotes=["*"])
-        self.add_subsystem("battery_voltage_estimation", BatteryVoltageEstimation(), promotes=["*"])
+        self.add_subsystem(
+            "battery_voltage_estimation", BatteryVoltageEstimation(), promotes=["*"]
+        )
