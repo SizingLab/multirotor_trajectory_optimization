@@ -32,8 +32,8 @@ class Mission(om.ExplicitComponent):
         ESC_eta = inputs["data:esc:efficiency"]
         P_el_mot_hov = inputs["data:motor:power:hover"]
 
-        E_hover = (P_el_mot_hov * N_pro) / ESC_eta * t_hov * 60
-        E_drone = E_hover + NRJ_Elevation * N_dis
+        E_hover = (P_el_mot_hov * N_pro) / ESC_eta * t_hov
+        E_drone = (E_hover + NRJ_Elevation) * N_dis
 
         outputs["data:mission:hover:energy"] = E_hover
         outputs["data:mission:energy"] = E_drone

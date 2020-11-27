@@ -69,7 +69,7 @@
     </frame>
     <mission>
       <hover>
-        <time units="s" is_input="True">12.5</time>
+        <time units="s" is_input="True">5.0</time>
       </hover>
       <travel>
         <displacement>
