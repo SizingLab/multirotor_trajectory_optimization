@@ -15,7 +15,7 @@
       </power>
     </esc>
     <propeller>
-      <number is_input="True">1.0</number>
+      <number is_input="True">4.0</number>
       <pitch is_input="True">0.5</pitch>
       <ND>
         <k is_input="True">1.0</k>
@@ -107,7 +107,7 @@
       <takeoff>
         <acceleration>
           <z>
-            <equivalent units="N/kg" is_input="True">0.25</equivalent>
+            <equivalent units="N/kg" is_input="True">0.01</equivalent>
           </z>
         </acceleration>
       </takeoff>

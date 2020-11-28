@@ -23,7 +23,7 @@ driver = "om.ScipyOptimizeDriver(tol=1e-3, optimizer='SLSQP', maxiter=500)"
         num_points=16
         num_simu_points=500
         final_time=3.0
-        initial_torque=80.0
+        initial_torque=8.0
     [model.battery_and_esc]
         id = "multirotor.battery_and_esc"
     [model.frame]
@@ -70,8 +70,8 @@ driver = "om.ScipyOptimizeDriver(tol=1e-3, optimizer='SLSQP', maxiter=500)"
         upper = 0.99
     [[optimization.design_var]]
         name = "data:trajectory:torque"
-        lower = 5
-        upper = 200
+        lower = 0.0
+        upper = 10
         scaler=1e-2
     [[optimization.design_var]]
         name = "data:trajectory:final_time"

@@ -13,7 +13,7 @@
       </power>
     </esc>
     <propeller>
-      <number is_input="True">1.0</number>
+      <number is_input="True">4.0</number>
       <pitch is_input="True">0.5</pitch>
       <ND>
         <k is_input="True">1.0</k>
@@ -34,7 +34,7 @@
     </system>
     <trajectory>
       <final_time units="s" is_input="True">4.0</final_time>
-      <torque units="N*m" is_input="True">[80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0, 80.0]</torque>
+      <torque units="N*m" is_input="True">[8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0]</torque>
     </trajectory>
     <battery>
       <capacity>
@@ -109,7 +109,7 @@
       <takeoff>
         <acceleration>
           <z>
-            <equivalent units="N/kg" is_input="True">0.25</equivalent>
+            <equivalent units="N/kg" is_input="True">0.01</equivalent>
           </z>
         </acceleration>
       </takeoff>
