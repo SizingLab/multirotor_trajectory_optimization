@@ -8,7 +8,7 @@ input_file = "../workdir/problem_inputs.xml"
 output_file = "../workdir/problem_outputs.xml"
 
 # Definition of problem driver assuming the OpenMDAO convention "import openmdao.api as om"
-driver = "om.ScipyOptimizeDriver(tol=1e-3, optimizer='SLSQP', maxiter=300)"
+driver = "om.ScipyOptimizeDriver(tol=1e-3, optimizer='SLSQP', maxiter=500)"
 
 # Definition of OpenMDAO model
 [model]
@@ -77,10 +77,10 @@ driver = "om.ScipyOptimizeDriver(tol=1e-3, optimizer='SLSQP', maxiter=300)"
         name = "data:trajectory:final_time"
         lower = 2.0
         upper = 8.0
-    # [[optimization.design_var]]
-    #     name = "data:scenarios:takeoff:acceleration:z:equivalent"
-    #     lower = 0.1
-    #     upper = 2.0
+    [[optimization.design_var]]
+        name = "data:scenarios:takeoff:acceleration:z:equivalent"
+        lower = 0.1
+        upper = 1.0
 
     [[optimization.constraint]]
         name = "data:motor:torque:max:constraint"
