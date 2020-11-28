@@ -3,6 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import openmdao.api as om
 
+plt.rc("font", family="serif")
+plt.rc("xtick", labelsize="small")
+plt.rc("ytick", labelsize="small")
+
 from pyfmi import load_fmu
 
 ressources_folder = "../ressources"
@@ -135,7 +139,9 @@ class Trajectory(om.ExplicitComponent):
         # outputs["data:trajectory:speed"] = np.interp(time, time_simu, res["droneMassPropeller.xp"])
         outputs["data:trajectory:time"] = np.interp(time, time_simu, res["time"])
         # outputs["data:trajectory:position"] = np.interp(time, time_simu, res["droneMassPropeller.x"])
-        outputs["data:trajectory:rotational_speed:max"] = np.max(res["droneMassPropeller.n"])
+        outputs["data:trajectory:rotational_speed:max"] = np.max(
+            res["droneMassPropeller.n"]
+        )
         outputs["data:trajectory:torque:max"] = np.max(res["droneMassPropeller.T"])
 
         # outputs["data:trajectory:rotational_speed"] = np.interp(
@@ -162,35 +168,47 @@ def plot_trajectory(res):
     n = res["droneMassPropeller.n"]
     T = res["droneMassPropeller.T"]
     power = res["droneMassPropeller.Power"]
+    fig, ((ax1, ax2), (ax3, ax4), (ax5, ax6)) = plt.subplots(
+        3, 2, sharex="col", figsize=(10, 6)
+    )
 
-    plt.grid()
-    plt.plot(t, xpp, "k")
-    plt.ylabel("Acceleration (m/s²)")
-    plt.xlabel("Time (s)")
-    plt.show()
-    plt.grid()
-    plt.plot(t, xp, "k")
-    plt.ylabel("Speed (m/s)")
-    plt.xlabel("Time (s)")
-    plt.show()
-    plt.grid()
-    plt.plot(t, x, "r")
-    plt.ylabel("Position (m)")
-    plt.xlabel("Time (s)")
-    plt.show()
-    plt.grid()
-    plt.plot(t, n, "b")
-    plt.ylabel("Rotational speed (Hz)")
-    plt.xlabel("Time (s)")
-    plt.show()
-    plt.grid()
-    plt.plot(t, T, "b")
-    plt.ylabel("Torque")
-    plt.xlabel("Time (s)")
-    plt.show()
-    plt.grid()
-    plt.plot(t, power, "b")
-    plt.ylabel("Total power [W]")
-    plt.xlabel("Time (s)")
+    # Acceleration
+    ax1.plot(t, xpp, "k")
+    ax1.set_ylabel("Acceleration [m/s²]")
+    # ax1.set_xlabel("Time [s]")
+    ax1.grid()
+
+    # Speed
+    ax3.plot(t, xp, "k")
+    ax3.set_ylabel("Speed [m/s]")
+    # ax2.set_xlabel("Time [s]")
+    ax3.grid()
+
+    # Position
+    ax5.plot(t, x, "k")
+    ax5.set_ylabel("Position [m]")
+    ax5.set_xlabel("Time [s]")
+    ax5.grid()
+
+    # Motor speed
+    ax2.plot(t, n, "k")
+    ax2.set_ylabel("Motor rotational speed [Hz]")
+    # ax4.set_xlabel("Time [s]")
+    ax2.grid()
+
+    # Motor torque
+    ax4.plot(t, T, "k")
+    ax4.set_ylabel("Motor torque [N.m]")
+    # ax5.set_xlabel("Time [s]")
+    ax4.grid()
+
+    # Total electric  power
+    ax6.plot(t, power * 1e-3, "k")
+    ax6.set_ylabel("Total electric power [kW]")
+    ax6.set_xlabel("Time [s]")
+    ax6.grid()
+
+    fig.align_ylabels()
+    fig.tight_layout()
     # plt.legend()
     plt.show()
