@@ -175,8 +175,12 @@ class ConstraintMaxTorque(om.ExplicitComponent):
         outputs["data:propeller:torque:takeoff:constraint"] = T_pro_constr
 
     def compute_partials(self, inputs, partials, discrete_inputs=None):
-        partials["data:propeller:torque:takeoff:constraint", "data:trajectory:torque:max"] = 1.0
-        partials["data:propeller:torque:takeoff:constraint", "data:propeller:torque:takeoff"] = -1.0
+        partials[
+            "data:propeller:torque:takeoff:constraint", "data:trajectory:torque:max"
+        ] = 1.0
+        partials[
+            "data:propeller:torque:takeoff:constraint", "data:propeller:torque:takeoff"
+        ] = -1.0
 
 
 class ConstraintMaxSpeed(om.ExplicitComponent):
@@ -185,7 +189,9 @@ class ConstraintMaxSpeed(om.ExplicitComponent):
     """
 
     def setup(self):
-        self.add_input("data:trajectory:rotational_speed:max", val=np.nan, units="rad/s")
+        self.add_input(
+            "data:trajectory:rotational_speed:max", val=np.nan, units="rad/s"
+        )
         self.add_input("data:propeller:speed:takeoff", val=np.nan, units="rad/s")
 
         self.add_output("data:propeller:speed:takeoff:constraint", units="rad/s")
@@ -201,8 +207,13 @@ class ConstraintMaxSpeed(om.ExplicitComponent):
         outputs["data:propeller:speed:takeoff:constraint"] = W_pro_constr
 
     def compute_partials(self, inputs, partials, discrete_inputs=None):
-        partials["data:propeller:speed:takeoff:constraint", "data:trajectory:rotational_speed:max"] = 1.0
-        partials["data:propeller:speed:takeoff:constraint", "data:propeller:speed:takeoff"] = -1.0
+        partials[
+            "data:propeller:speed:takeoff:constraint",
+            "data:trajectory:rotational_speed:max",
+        ] = 1.0
+        partials[
+            "data:propeller:speed:takeoff:constraint", "data:propeller:speed:takeoff"
+        ] = -1.0
 
 
 class SystemConstraints(om.Group):
@@ -222,9 +233,7 @@ class SystemConstraints(om.Group):
             "constraint_max_torque", ConstraintMaxTorque(), promotes=["*"]
         )
 
-        self.add_subsystem(
-            "constraint_max_speed", ConstraintMaxSpeed(), promotes=["*"]
-        )
+        self.add_subsystem("constraint_max_speed", ConstraintMaxSpeed(), promotes=["*"])
 
 
 class Multirotor(om.Group):

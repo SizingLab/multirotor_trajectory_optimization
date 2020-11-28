@@ -71,7 +71,7 @@ driver = "om.ScipyOptimizeDriver(tol=1e-3, optimizer='SLSQP', maxiter=500)"
     [[optimization.design_var]]
         name = "data:trajectory:torque"
         lower = 0.0
-        upper = 10
+        upper = 30
         scaler=1e-2
     [[optimization.design_var]]
         name = "data:trajectory:final_time"
@@ -101,7 +101,7 @@ driver = "om.ScipyOptimizeDriver(tol=1e-3, optimizer='SLSQP', maxiter=500)"
     # [[optimization.constraint]]
     #     name = "data:propeller:speed:takeoff:constraint"
     #     upper = 0.0
-#
+
     [[optimization.constraint]]
         name = "data:propeller:torque:takeoff:constraint"
         upper = 0.0

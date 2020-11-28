@@ -71,7 +71,7 @@
       </hover>
       <travel>
         <displacement>
-          <number is_input="True">50.0</number>
+          <number is_input="True">150.0</number>
         </displacement>
       </travel>
     </mission>
