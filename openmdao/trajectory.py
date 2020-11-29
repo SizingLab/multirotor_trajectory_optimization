@@ -36,6 +36,7 @@ class Model(om.Group):
 
 class Trajectory(om.ExplicitComponent):
     def initialize(self):
+
         self.options.declare("num_points", types=int, default=16)
         self.options.declare("num_simu_points", types=int, default=500)
         self.options.declare("final_time", types=float, default=4.0)
@@ -174,3 +175,5 @@ def plot_trajectory(res):
     fig.tight_layout()
     # plt.legend()
     plt.show()
+
+    return fig

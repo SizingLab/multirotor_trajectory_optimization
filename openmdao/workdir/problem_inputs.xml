@@ -34,7 +34,7 @@
     </system>
     <trajectory>
       <final_time units="s" is_input="True">4.0</final_time>
-      <torque units="N*m" is_input="True">[8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0]</torque>
+      <torque units="N*m" is_input="True">[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0]</torque>
     </trajectory>
     <battery>
       <capacity>
@@ -73,6 +73,7 @@
       </hover>
       <travel>
         <displacement>
+          <height units="m" is_input="True">10.0</height>
           <number is_input="True">150.0</number>
         </displacement>
       </travel>
@@ -109,7 +110,7 @@
       <takeoff>
         <acceleration>
           <z>
-            <equivalent units="N/kg" is_input="True">0.01</equivalent>
+            <equivalent units="N/kg" is_input="True">0.25</equivalent>
           </z>
         </acceleration>
       </takeoff>

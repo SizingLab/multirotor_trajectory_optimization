@@ -159,21 +159,27 @@ class Trajectory(om.ExplicitComponent):
         # outputs["data:trajectory:acc_capacity"] = 2 - max_torque/hover_torque
 
 
-def plot_trajectory(res):
+def plot_trajectory(res, problem=None):
 
-    t = res["time"]
+    t = np.array(res["time"])
     xpp = res["droneMassPropeller.der(xp)"]
     xp = res["droneMassPropeller.xp"]
     x = res["droneMassPropeller.x"]
     n = res["droneMassPropeller.n"]
     T = res["droneMassPropeller.T"]
     power = res["droneMassPropeller.Power"]
+
+    if problem:
+        t0 = problem["data:trajectory:time"]
+        T0 = problem["data:trajectory:torque"]
+
+
     fig, ((ax1, ax2), (ax3, ax4), (ax5, ax6)) = plt.subplots(
         3, 2, sharex="col", figsize=(10, 6)
     )
 
     # Acceleration
-    ax1.plot(t, xpp, "k")
+    l1 = ax1.plot(t, xpp, "k")
     ax1.set_ylabel("Acceleration [m/s²]")
     # ax1.set_xlabel("Time [s]")
     ax1.grid()
@@ -198,6 +204,9 @@ def plot_trajectory(res):
 
     # Motor torque
     ax4.plot(t, T, "k")
+    if problem:
+        ax4.scatter(t0, T0, label="Control points", color="k")
+        ax4.legend()
     ax4.set_ylabel("Motor torque [N.m]")
     # ax5.set_xlabel("Time [s]")
     ax4.grid()
@@ -212,3 +221,5 @@ def plot_trajectory(res):
     fig.tight_layout()
     # plt.legend()
     plt.show()
+
+    return fig
