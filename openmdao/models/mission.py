@@ -34,6 +34,7 @@ class Mission(om.ExplicitComponent):
         self.add_output("data:mission:travel:displacement:number:guess", units=None)
         self.add_output("data:mission:energy:guess", units="J")
         self.add_output("data:mission:hover:energy", units="J")
+        self.add_output("data:mission:hover:time:max", units="s")
 
         if not self.options["evaluation"]:
             self.add_output("data:mission:energy", units="J")
@@ -70,8 +71,11 @@ class Mission(om.ExplicitComponent):
         if self.options["use_potential_energy"]:
             E_drone = E_drone_est
 
+        t_hov_max = E_drone/(P_el_mot_hov * N_pro) / ESC_eta
+
         outputs["data:mission:travel:displacement:number:guess"] = N_dis_guess
         outputs["data:mission:energy:guess"] = E_drone_est
         outputs["data:mission:hover:energy"] = E_hover
+        outputs["data:mission:hover:time:max"] = t_hov_max
         if not self.options["evaluation"]:
             outputs["data:mission:energy"] = E_drone
