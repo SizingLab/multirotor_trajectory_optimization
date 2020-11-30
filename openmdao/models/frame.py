@@ -79,7 +79,7 @@ class TubeDiameterAndThickness(om.ExplicitComponent):
             / (pi * (1.0 - (1.0 - 2.0 * k_D) ** 4.0))
         ) ** (1 / 3)
         e_arm = k_D * D_out_arm
-        D_in_arm = D_out_arm - e_arm
+        D_in_arm = D_out_arm - 2 * e_arm
 
         outputs["data:frame:arm:diameter:inner"] = D_in_arm
         outputs["data:frame:arm:diameter:outer"] = D_out_arm
