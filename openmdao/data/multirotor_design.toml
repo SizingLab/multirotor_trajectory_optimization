@@ -8,7 +8,7 @@ input_file = "../workdir/problem_inputs.xml"
 output_file = "../workdir/problem_outputs.xml"
 
 # Definition of problem driver assuming the OpenMDAO convention "import openmdao.api as om"
-driver = "om.ScipyOptimizeDriver(tol=1e-6, optimizer='SLSQP', maxiter=500)"
+driver = "om.ScipyOptimizeDriver(tol=1e-5, optimizer='SLSQP', maxiter=500)"
 
 # Definition of OpenMDAO model
 [model]
@@ -30,7 +30,7 @@ driver = "om.ScipyOptimizeDriver(tol=1e-6, optimizer='SLSQP', maxiter=500)"
         id = "multirotor.frame"
     [model.mission]
         id = "multirotor.mission"
-        use_potential_energy = true
+        use_approximation = true
         evaluation = false
     [model.system_constraints]
         id = "multirotor.system_constraints"

@@ -106,7 +106,7 @@
       <takeoff>
         <acceleration>
           <z>
-            <equivalent units="N/kg" is_input="True">0.25</equivalent>
+            <equivalent units="N/kg" is_input="True">0.5</equivalent>
           </z>
         </acceleration>
       </takeoff>

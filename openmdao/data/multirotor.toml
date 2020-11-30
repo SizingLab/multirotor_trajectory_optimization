@@ -30,7 +30,7 @@ driver = "om.ScipyOptimizeDriver(tol=1e-3, optimizer='SLSQP', maxiter=500)"
         id = "multirotor.frame"
     [model.mission]
         id = "multirotor.mission"
-        use_potential_energy = false
+        use_approximation = false
     [model.system_constraints]
         id = "multirotor.system_constraints"
 

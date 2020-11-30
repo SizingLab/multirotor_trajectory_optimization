@@ -23,14 +23,14 @@ driver = "om.ScipyOptimizeDriver(tol=1e-5, optimizer='SLSQP', maxiter=500)"
         num_points=16
         num_simu_points=500
         final_time=3.0
-        initial_torque=10.0
+        initial_torque=15.0
     [model.battery_and_esc]
         id = "multirotor.battery_and_esc"
     [model.frame]
         id = "multirotor.frame"
     [model.mission]
         id = "multirotor.mission"
-        use_potential_energy = false
+        use_approximation = false
         evaluation = false
     [model.system_constraints]
         id = "multirotor.system_constraints"
