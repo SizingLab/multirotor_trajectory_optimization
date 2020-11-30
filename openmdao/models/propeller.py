@@ -20,8 +20,10 @@ class PowerAndThrustCoefficients(om.ExplicitComponent):
     def compute(self, inputs, outputs, discrete_inputs=None, discrete_outputs=None):
         pitch = inputs["data:propeller:pitch"]
 
-        Ct = 4.27e-02 + 1.44e-01 * pitch
-        Cp = -1.48e-03 + 9.72e-02 * pitch
+        # Ct = 4.27e-02 + 1.44e-01 * pitch
+        Ct = 0.02791 + 0.11867*pitch + 0.27334*pitch**2 - 0.28852*pitch**3
+        # Cp = -1.48e-03 + 9.72e-02 * pitch
+        Cp = 0.01813 - 0.06218*pitch + 0.35712*pitch**2 - 0.23774*pitch**3
 
         outputs["data:propeller:Ct"] = Ct
         outputs["data:propeller:Cp"] = Cp
