@@ -40,7 +40,7 @@ driver = "om.ScipyOptimizeDriver(tol=1e-5, optimizer='SLSQP', maxiter=500)"
     [[optimization.design_var]]
         name = "data:trajectory:torque"
         lower = 0.0
-        upper = 30
+        upper = 12.5
     # [[optimization.design_var]]
     #     name = "data:trajectory:final_time"
     #     lower = 2.0
